@@ -5,24 +5,29 @@ $(document).ready(function() {
         availableTags.push({label: $(td).find('span').html().trim(), value: $(td).find('input').val()});
     });
 
-    $( "#studentName" ).autocomplete({
-        autoFocus: true,
-        delay: 0,
-        source: availableTags,
-        select: function(event, ui) {
-          $('#studentId').val(ui.item.value);
-          $(event.target).val(ui.item.label);
-          return false;
-        }
-    });
+    wireUpAutoComplete();
+    $('input[type=text]').filter(':visible:first').focus();
 });
+
+var wireUpAutoComplete = function() {
+  $( "#studentName" ).autocomplete({
+    autoFocus: true,
+    delay: 0,
+    source: availableTags,
+    select: function(event, ui) {
+      $('#studentId').val(ui.item.value);
+      $(event.target).val(ui.item.label);
+      return false;
+    }
+  });
+};
 
 $(function() {
     $("#score").keyup(function(event){
         if(event.keyCode == 13){
             var $studentName = $('#studentName').val();
             var score = $('#score').val();
-            var $old = $('#UngradedTable tr').find(':contains("'+ $studentName +'")').parent();
+            var $old = $('#UngradedTable tr td').find(':contains("'+ $studentName +'")').parent().parent();
             //First we copy the arrow to the new table cell and get the offset to the document
             var $new = $old.clone().appendTo('#GradedTable');
             var newOffset = $new.offset();
@@ -50,11 +55,7 @@ $(function() {
 
             var index = availableTags.indexOf($studentName);
             availableTags.splice(index, 1);
-            $( "#studentName" ).autocomplete({
-                autoFocus: true,
-                delay: 0,
-                source: availableTags
-            });
+            wireUpAutoComplete();
 
             var doneCount = $("#GradedTable tr").length - 1;
             var undoneCount = $("#UngradedTable tr").length - 1;

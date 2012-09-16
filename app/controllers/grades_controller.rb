@@ -3,6 +3,9 @@ class GradesController < ApplicationController
     student = params[:grade][:student]
 
     @grade = Grade.new
+    @grade.assignment_id = params[:grade][:assignment][:id]
+    @grade.score = params[:grade][:score]
+
     #create the student if the student name is nil
     if student[:id].present?
       @grade.student = Student.find student[:id]

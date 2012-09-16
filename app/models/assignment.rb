@@ -4,6 +4,19 @@ class Assignment < ActiveRecord::Base
   belongs_to :course
   has_many :grades
 
+  def graded
+    graded = []
+    grades.each do |grade|
+      graded << grade if grade.score.present?
+    end
+    graded.uniq
+  end
+
+  def ungraded
+    graded = self.graded.collect{|g| g.student}
+    (course.students - graded)
+  end
+
   def self.default
     assignment = Assignment.last
     if assignment.nil?
