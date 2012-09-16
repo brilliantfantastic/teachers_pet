@@ -5,18 +5,9 @@ class CoursesController < ApplicationController
   end
 
   def create
-    if params[:course][:id].present?
-      update
-    else
-      @course = Course.new params[:course]
-      @course.save
-      render :json => @course
-    end
-  end
-
-  def show
-    @course = Course.find(params[:id])
-    @student = Student.new
+    @course = Course.new params[:course]
+    @course.save
+    render :json => @course
   end
 
   def index
@@ -32,5 +23,4 @@ class CoursesController < ApplicationController
     @course.update_attributes(params[:course])
     render :show
   end
-
 end
