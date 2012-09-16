@@ -1,6 +1,10 @@
 .page-header
   .container
-    %h1= @assignment.course.name
+    .row
+      .span4.course
+        %h1= @assignment.course.name
+      .span4.assignment
+        %h1= @assignment.name
 
     .form-inline
       = form_for @grade, :remote => true  do |f|
@@ -9,13 +13,13 @@
           = sf.label :name
           = sf.text_field :name, :id => 'studentName'
         
-        = f.label :score
-        = f.text_field :score, :id => 'score'
+        = f.label :score, :style => 'padding-left: 20px;'
+        = f.text_field :score, :id => 'score', :style => 'width: 50px;'
         
         = f.fields_for @grade.assignment do |af|
           = af.hidden_field :id
       
-        = f.submit :class => 'btn'
+        = f.submit "Save Score", :class => 'btn'
 
 .main
   .container
