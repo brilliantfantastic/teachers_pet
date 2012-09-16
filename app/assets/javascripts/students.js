@@ -28,6 +28,10 @@ $(function() {
             var $studentName = $('#studentName').val();
             var score = $('#score').val();
             var $old = $('#UngradedTable tr td').find(':contains("'+ $studentName +'")').parent().parent();
+            if ($old.length == 0) {
+              $('#UngradedTable').append("<tr><td>" + $studentName + "</td></tr>");
+              $old = $('#UngradedTable tr td').find(':contains("'+ $studentName +'")').parent().parent();
+            }
             //First we copy the arrow to the new table cell and get the offset to the document
             var $new = $old.clone().appendTo('#GradedTable');
             var newOffset = $new.offset();
